@@ -13,6 +13,7 @@ from viz import plot_ten_samples, plot_losses
 
 def main(args):
     os.makedirs("img", exist_ok=True)
+    os.makedirs("models", exist_ok=True)
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'mps' if torch.backends.mps.is_available() else 'cpu')
     print(f'device: {device}')
@@ -72,6 +73,18 @@ def main(args):
     plot_ten_samples(samples, "samples", run_id)
 
     test_denoising_ability(test_ds, device, scheduler, model, run_id, "denoising")
+
+    checkpoint_path = f"models/{run_id}.pt"
+    torch.save(
+        {
+            "model_state_dict": model.state_dict(),
+            "model_kwargs": model_kwargs,
+            "pred_param": args.pred_param,
+            "run_id": run_id,
+        },
+        checkpoint_path,
+    )
+    print(f"saved model to {checkpoint_path}")
 
 
 if __name__ == "__main__":
