@@ -1,3 +1,4 @@
+import os
 import time
 import torch
 import torch.nn.functional as F
@@ -11,6 +12,8 @@ from utils import log_diffuse, fwd_noise, sample, generate_run_id, test_denoisin
 from viz import plot_ten_samples, plot_losses
 
 def main(args):
+    os.makedirs("img", exist_ok=True)
+
     device = torch.device('cuda' if torch.cuda.is_available() else 'mps' if torch.backends.mps.is_available() else 'cpu')
     print(f'device: {device}')
     torch.manual_seed(0)
