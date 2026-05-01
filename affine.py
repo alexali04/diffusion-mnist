@@ -34,8 +34,6 @@ def main(args):
     start_time = time.time()
     for e in range(epochs):
         for step, (x0, y) in enumerate(train_dl):
-            if step > 20:
-                break
             x0, y = x0.to(device), y.to(device)
 
             # forward process
